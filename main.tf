@@ -37,7 +37,6 @@ resource "aws_s3_bucket" "example" {
   #checkov:skip=CKV_AWS_145:Ensure that S3 buckets are encrypted with KMS by default
   #checkov:skip=CKV2_AWS_62:Ensure S3 buckets should have event notifications enabled
   #checkov:skip=CKV_AWS_300:Ensure S3 lifecycle configuration sets period for aborting failed uploads
-
 }
 
 
