@@ -11,7 +11,16 @@ terraform {
     key    = "aalimsee-ce9-M3.2-github-workflow.tfstate" # Replace the value of key to <your>.tfstate, eg. terraform-ex-ec2-<NAME>.tfstate
     region = "us-east-1"
   }
-  required_version = ">= 1.2"
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0" # Adjust as needed
+    }
+  }
+
+  # required for TFLint to work properly
+  required_version = ">= 1.0.0" # Use the latest stable version or specify your desired version
 }
 
 data "aws_caller_identity" "current" {}
