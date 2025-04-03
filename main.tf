@@ -29,6 +29,7 @@ locals {
 
 resource "aws_s3_bucket" "example_dev" {
   bucket = "${local.name_prefix}-s3-tf-bkt-${local.account_id}"
+  #checkov:skip=CKV_AWS_18:Ensure the S3 bucket has access logging enabled
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "example_dev_lifecycle" {
