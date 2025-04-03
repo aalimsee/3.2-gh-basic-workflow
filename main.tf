@@ -29,6 +29,7 @@ locals {
 
 resource "aws_s3_bucket" "example" {
   bucket = "${local.name_prefix}-s3-tf-bkt-${local.account_id}"
+  #skip checkov, to be address later
   #checkov:skip=CKV_AWS_18:Ensure the S3 bucket has access logging enabled
   #checkov:skip=CKV_AWS_144:Ensure that S3 bucket has cross-region replication enabled
   #checkov:skip=CKV2_AWS_6:Ensure that S3 bucket has a Public Access block
