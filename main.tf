@@ -27,7 +27,7 @@ locals {
   account_id  = data.aws_caller_identity.current.account_id
 }
 
-resource "aws_s3_bucket" "example_dev" {
+resource "aws_s3_bucket" "example" {
   bucket = "${local.name_prefix}-s3-tf-bkt-${local.account_id}"
   #checkov:skip=CKV_AWS_18:Ensure the S3 bucket has access logging enabled
   #checkov:skip=CKV_AWS_144:Ensure that S3 bucket has cross-region replication enabled
@@ -38,21 +38,4 @@ resource "aws_s3_bucket" "example_dev" {
   #checkov:skip=CKV_AWS_300:Ensure S3 lifecycle configuration sets period for aborting failed uploads
 }
 
-resource "aws_s3_bucket_lifecycle_configuration" "example_dev_lifecycle" {
-  bucket = aws_s3_bucket.example_dev.id
-
-  rule {
-    id     = "ManageLifecycleAndDelete"
-    status = "Enabled"
-
-    transition {
-      days          = 30
-      storage_class = "STANDARD_IA"
-    }
-
-    expiration {
-      days = 90
-    }
-  }
-}
 
