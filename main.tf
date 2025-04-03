@@ -8,16 +8,15 @@ provider "aws" {
 terraform {
   backend "s3" {
     bucket = "sctp-ce9-tfstate"
-    key    = "aalimsee-ce9-M3.2-github-workflow.tfstate" # Replace the value of key to <your>.tfstate, eg. terraform-ex-ec2-<NAME>.tfstate
+    key    = "aalimsee-ce9-M3.2-github-workflow.tfstate" # Replace the value of key to <your>.tfstate
     region = "us-east-1"
   }
-  /*   required_providers {
+  required_providers {
     aws = {
       source  = "hashicorp/aws"
       version = "~> 5.9" # Adjust as needed
     }
-  } */
-  # required for TFLint to work properly
+  }
   required_version = ">= 1.0" # Use the latest stable version or specify your desired version
 }
 
