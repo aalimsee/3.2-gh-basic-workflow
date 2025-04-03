@@ -27,6 +27,25 @@ locals {
   account_id  = data.aws_caller_identity.current.account_id
 }
 
-resource "aws_s3_bucket" "s3_tf" {
+resource "aws_s3_bucket" "example_dev" {
   bucket = "${local.name_prefix}-s3-tf-bkt-${local.account_id}"
 }
+
+resource "aws_s3_bucket_lifecycle_configuration" "example_dev_lifecycle" {
+  bucket = aws_s3_bucket.example_dev.id
+
+  rule {
+    id     = "ManageLifecycleAndDelete"
+    status = "Enabled"
+
+    transition {
+      days          = 30
+      storage_class = "STANDARD_IA"
+    }
+
+    expiration {
+      days = 90
+    }
+  }
+}
+
