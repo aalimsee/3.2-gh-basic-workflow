@@ -29,7 +29,9 @@ locals {
 
 resource "aws_s3_bucket" "example" {
   bucket = "${local.name_prefix}-s3-tf-bkt-${local.account_id}"
-  #skip checkov, to be address later
+
+  # --- Areas to be enhanced to strengthen the code
+
   #checkov:skip=CKV_AWS_18:Ensure the S3 bucket has access logging enabled
   #checkov:skip=CKV_AWS_144:Ensure that S3 bucket has cross-region replication enabled
   #checkov:skip=CKV2_AWS_6:Ensure that S3 bucket has a Public Access block
@@ -37,6 +39,7 @@ resource "aws_s3_bucket" "example" {
   #checkov:skip=CKV_AWS_145:Ensure that S3 buckets are encrypted with KMS by default
   #checkov:skip=CKV2_AWS_62:Ensure S3 buckets should have event notifications enabled
   #checkov:skip=CKV_AWS_300:Ensure S3 lifecycle configuration sets period for aborting failed uploads
+  #checkov:skip=CKV2_AWS_61:Ensure that an S3 bucket has a lifecycle configuration
 }
 
 

@@ -38,3 +38,48 @@ Warning: main.tf:23:1: Warning - Missing version constraint for provider "aws" i
 
 Warning: main.tf:8:1: Warning - terraform "required_version" attribute is required (terraform_required_version)
 # https://github.com/terraform-linters/tflint-ruleset-terraform/blob/main/docs/rules/terraform_required_version.md 
+
+
+# Verify Ruleset
+## List existing rulesets:
+gh ruleset list --repo OWNER/REPO
+
+## Check details of a specific ruleset:
+gh ruleset view --repo OWNER/REPO --name "Restrict Workflow Runs"
+
+## Example:
+% gh ruleset list --repo aalimsee/3.2-gh-basic-workflow
+
+Showing 1 of 1 rulesets in aalimsee/3.2-gh-basic-workflow and its parents
+
+ID       NAME                    SOURCE                                 STATUS  RULES
+4579922  protect-default-branch  aalimsee/3.2-gh-basic-workflow (repo)  active  4
+
+# Enforce branch protection and status checks
+# To create the protect-default-branch ruleset using gh CLI, use the following command:
+gh ruleset create \
+  --repo aalimsee/3.2-gh-basic-workflow \
+  --name "protect-default-branch" \
+  --target "branch" \
+  --enforcement "active" \
+  --conditions 'ref_name={"include":["~DEFAULT_BRANCH"],"exclude":[]}' \
+  --rules '[
+    {"type": "deletion"},
+    {"type": "non_fast_forward"},
+    {"type": "pull_request", "parameters": {
+      "allowed_merge_methods": ["merge", "squash", "rebase"],
+      "automatic_copilot_code_review_enabled": false,
+      "dismiss_stale_reviews_on_push": false,
+      "require_code_owner_review": false,
+      "require_last_push_approval": false,
+      "required_approving_review_count": 0,
+      "required_review_thread_resolution": false
+    }},
+    {"type": "required_status_checks", "parameters": {
+      "do_not_enforce_on_create": false,
+      "required_status_checks": [{"context": "CI", "integration_id": 15368}],
+      "strict_required_status_checks_policy": false
+    }}
+  ]' \
+  --bypass-actors "never" \
+  --description "Protects the default branch by enforcing merge rules and CI checks."
